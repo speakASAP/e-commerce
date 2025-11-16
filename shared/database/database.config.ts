@@ -1,6 +1,11 @@
 /**
  * Database Configuration
- * Connects to existing PostgreSQL database at ../database-server
+ * Connects to production PostgreSQL database
+ * 
+ * For local development: Use DB_HOST=localhost (via SSH tunnel to production)
+ * For Docker: Use DB_HOST=db-server-postgres (Docker network name)
+ * 
+ * Production database is at: statex server (db-server-postgres container)
  */
 
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -10,6 +15,8 @@ config();
 
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'postgres',
+  // Default to Docker network name, but should be overridden via .env
+  // Local dev: localhost (SSH tunnel), Docker: db-server-postgres
   host: process.env.DB_HOST || 'db-server-postgres',
   port: parseInt(process.env.DB_PORT || '5432', 10),
   username: process.env.DB_USER || 'dbadmin',

@@ -11,10 +11,11 @@ import {
   commonDefinitions,
   databaseDefinitions,
   jwtDefinitions,
+  EnvVarDefinition,
 } from '../../../shared/config/env-validator';
 
 // Validate environment variables before starting
-const orderServiceDefinitions = [
+const orderServiceDefinitions: EnvVarDefinition[] = [
   ...commonDefinitions,
   ...databaseDefinitions,
   ...jwtDefinitions,

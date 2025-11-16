@@ -1,5 +1,8 @@
 docs/tasks.md
 *.backup
+*.backup.local
+.env.backup.local
+.env.backup
 
 # Dependencies
 node_modules/

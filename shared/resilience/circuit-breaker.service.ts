@@ -92,10 +92,10 @@ export class CircuitBreakerService {
     const stats = breaker.stats;
     return {
       name: serviceName,
-      state: breaker.isOpen ? 'open' : breaker.isHalfOpen ? 'half-open' : 'closed',
+      state: breaker.opened ? 'open' : breaker.halfOpen ? 'half-open' : 'closed',
       failures: stats.failures,
       successes: stats.successes,
-      lastFailureTime: stats.lastFailureTime,
+      lastFailureTime: stats.failures > 0 ? new Date() : undefined,
     };
   }
 
@@ -108,10 +108,10 @@ export class CircuitBreakerService {
       const stats = breaker.stats;
       states.push({
         name,
-        state: breaker.isOpen ? 'open' : breaker.isHalfOpen ? 'half-open' : 'closed',
+        state: breaker.opened ? 'open' : breaker.halfOpen ? 'half-open' : 'closed',
         failures: stats.failures,
         successes: stats.successes,
-        lastFailureTime: stats.lastFailureTime,
+        lastFailureTime: stats.failures > 0 ? new Date() : undefined,
       });
     }
     return states;
@@ -132,7 +132,6 @@ export class CircuitBreakerService {
    */
   isOpen(serviceName: string): boolean {
     const breaker = this.breakers.get(serviceName);
-    return breaker ? breaker.isOpen : false;
+    return breaker ? breaker.opened : false;
   }
 }
-

@@ -88,7 +88,7 @@ export class HealthService {
     try {
       const loggingServiceUrl =
         this.configService.get<string>('LOGGING_SERVICE_URL') ||
-        'http://logging-microservice:3009';
+        'https://logging.statex.cz';
       const url = loggingServiceUrl.replace('/api/logs', '/health');
 
       const response = await firstValueFrom(

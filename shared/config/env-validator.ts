@@ -237,9 +237,9 @@ export const commonDefinitions: EnvVarDefinition[] = [
   {
     name: 'LOGGING_SERVICE_URL',
     required: false,
-    type: 'url',
-    default: 'http://logging-microservice:3009',
-    description: 'Logging microservice URL',
+    type: 'url' as const,
+    default: 'https://logging.statex.cz',
+    description: 'Logging microservice URL (production: https://logging.statex.cz, Docker: http://logging-microservice:3268)',
   },
 ];
 
@@ -253,7 +253,7 @@ export const databaseDefinitions: EnvVarDefinition[] = [
     type: 'string',
     default: 'db-server-postgres',
     validation: validators.dbHost,
-    description: 'Database hostname or container name',
+    description: 'Database hostname (local dev: localhost via SSH tunnel, Docker: db-server-postgres)',
   },
   {
     name: 'DB_PORT',

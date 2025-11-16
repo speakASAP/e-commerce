@@ -4,23 +4,16 @@
 
 ## Details needed
 
-Our application consists of 5 microservices in /home/statex/. Access via ssh statex.
+Our application flipflop.statex.cz consists of several microservices in /home/statex/ (logging, nginx, database, notifications, e-commerce). Access via ssh statex.
 
-Initial task: connect to the production folder using ssh statex
-You can see folder "e-commerce" there.
-Initiate it with git@github.com:speakASAP/e-commerce.git
-ssh statex "cd e-commerce && git pull
-
-After that we need to register it on nginx-microservice. You should do it using scripts from ssh statex && cd nginx-microservice && ls -la scripts
-You need to check if flipflop.statex.cz registered already. If not - register it on nginx-microservice blue/green environment.
-Read nginx-microservice/README.md to understand how to do it.
+ssh statex "cd e-commerce && git pull"
 
 pull github repos using ssh statex "cd e-commerce && git pull && cd ../nginx-microservice && git pull && docker exec nginx-microservice nginx -t && docker exec nginx-microservice nginx -s reload"
 In case there will be local file changes they needs to be checked against github version and git repo should be corrected with working codebase.
 
 nginx-microservice handles blue/green deployments.
 Use the same nginx and database setup to manage flipflop.statex.cz:
-Run: ssh statex && cd nginx-microservice && ./scripts/blue-green/deploy.sh e-commerce.
+Run: ssh statex "cd nginx-microservice && ./scripts/blue-green/deploy.sh e-commerce"
 
 database-server is the PostgreSQL database for the app.
 
