@@ -45,7 +45,6 @@ services:
       - order-service
       - cart-service
       - warehouse-service
-      - supplier-service
     volumes:
       - ./logs:/app/logs
     environment:
@@ -235,58 +234,6 @@ services:
       timeout: 10s
       retries: 5
 
-  ai-service:
-    build:
-      context: .
-      dockerfile: ./services/ai-service/Dockerfile
-    container_name: e-commerce-ai-service
-    restart: unless-stopped
-    env_file:
-      - .env
-    ports:
-      - "127.0.0.1:${AI_SERVICE_PORT:-3007}:${AI_SERVICE_PORT:-3007}"
-    volumes:
-      - ./logs:/app/logs
-    environment:
-      - NODE_ENV=${NODE_ENV:-development}
-      - PORT=${AI_SERVICE_PORT:-3007}
-    networks:
-      - default
-      - nginx-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${AI_SERVICE_PORT:-3007}/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  analytics-service:
-    build:
-      context: .
-      dockerfile: ./services/analytics-service/Dockerfile
-    container_name: e-commerce-analytics-service
-    restart: unless-stopped
-    env_file:
-      - .env
-    ports:
-      - "127.0.0.1:${ANALYTICS_SERVICE_PORT:-3008}:${ANALYTICS_SERVICE_PORT:-3008}"
-    volumes:
-      - ./logs:/app/logs
-    environment:
-      - NODE_ENV=${NODE_ENV:-development}
-      - PORT=${ANALYTICS_SERVICE_PORT:-3008}
-      - DB_HOST=${DB_HOST:-db-server-postgres}
-      - DB_PORT=${DB_PORT:-5432}
-      - DB_USER=${DB_USER:-dbadmin}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME:-ecommerce}
-    networks:
-      - default
-      - nginx-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${ANALYTICS_SERVICE_PORT:-3008}/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
 networks:
   default:
